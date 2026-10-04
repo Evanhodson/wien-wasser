@@ -17,7 +17,9 @@ const SRC =
     const p = f.properties || {};
     const type = (p.BASIS_TYP_TXT || "").trim();
     types[type] = (types[type] || 0) + 1;
-    if (/zier/i.test(type)) continue; // decorative fountains aren't for drinking
+    // Drinking water only. Skips decorative/play fountains, mist showers, splash pads,
+    // groundwater pumps (not potable) and dog-only bowls.
+    if (!/Trinkbrunnen|Trinkhydrant|Auslaufbrunnen|ESC-Brunnen/.test(type)) continue;
     const c = f.geometry && f.geometry.coordinates;
     if (!c || c.length < 2) continue;
     fountains.push({ id: p.OBJECTID, lat: +c[1].toFixed(6), lon: +c[0].toFixed(6), type });
